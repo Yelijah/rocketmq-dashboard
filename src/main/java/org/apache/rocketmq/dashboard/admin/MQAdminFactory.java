@@ -50,6 +50,7 @@ public class MQAdminFactory {
         } else {
             mqAdminExt = new DefaultMQAdminExt(rpcHook, rmqConfigure.getTimeoutMillis());
         }
+        //RMQConfigure.setNamesrvAddrs had already set MixAll.NAMESRV_ADDR_PROPERTY
         mqAdminExt.setAdminExtGroup(mqAdminExt.getAdminExtGroup() + "_" + adminIndex.getAndIncrement());
         mqAdminExt.setVipChannelEnabled(Boolean.parseBoolean(rmqConfigure.getIsVIPChannel()));
         mqAdminExt.setUseTLS(rmqConfigure.isUseTLS());

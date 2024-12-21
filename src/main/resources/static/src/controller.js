@@ -342,8 +342,8 @@ app.controller('dashboardCtrl', ['$scope','$rootScope','$translate','$filter','N
 
             //sort the brokerArray
             $scope.brokerArray.sort(function(firstBroker,lastBroker){
-                var firstTotalMsg = parseFloat(firstBroker.msgGetTotalTodayNow);
-                var lastTotalMsg = parseFloat(lastBroker.msgGetTotalTodayNow);
+                var firstTotalMsg = parseFloat(firstBroker.msgPutTotalTodayNow);
+                var lastTotalMsg = parseFloat(lastBroker.msgPutTotalTodayNow);
                 return lastTotalMsg-firstTotalMsg;
             });
 
@@ -355,7 +355,8 @@ app.controller('dashboardCtrl', ['$scope','$rootScope','$translate','$filter','N
                     return false;
                 }
                 xAxisData.push(broker.brokerName + ":" + broker.index);
-                data.push(broker.msgGetTotalTodayNow);
+                //show inMsgCntToday instead of outMsgCntToday
+                data.push(broker.msgPutTotalTodayNow);
             })
             getBrokerBarChartOp(xAxisData,data);
         }else{

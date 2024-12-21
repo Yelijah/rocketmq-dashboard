@@ -66,7 +66,8 @@ public class DashboardServiceImpl implements DashboardService {
         List<String> result = Lists.newArrayList();
         for (Map.Entry<String, List<String>> entry : topicCache.entrySet()) {
             List<String> value = entry.getValue();
-            result.add(entry.getKey() + "," + value.get(value.size() - 1).split(",")[4]);
+            //show inMsgCntToday instead of outMsgCntToday
+            result.add(entry.getKey() + "," + value.get(value.size() - 1).split(",")[2]);
         }
         return result;
     }
