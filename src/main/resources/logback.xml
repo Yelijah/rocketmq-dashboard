@@ -25,10 +25,10 @@
 
 	<appender name="FILE"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${user.home}/logs/dashboardlogs/rocketmq-dashboard.log</file>
+		<file>${rocketmq.client.logRoot:-${user.home}/logs/dashboardlogs}/rocketmq-dashboard.log</file>
 		<append>true</append>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${user.home}/logs/dashboardlogs/rocketmq-dashboard-%d{yyyy-MM-dd}.%i.log
+			<fileNamePattern>${rocketmq.client.logRoot:-${user.home}/logs/dashboardlogs}/rocketmq-dashboard-%d{yyyy-MM-dd}.%i.gz
 			</fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy
 				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -42,7 +42,7 @@
 		</encoder>
 	</appender>
 
-	<root level="INFO">
+	<root level="${rocketmq.client.logLevel:-INFO}">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />
 	</root>
