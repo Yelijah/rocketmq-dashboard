@@ -132,7 +132,9 @@ public class RMQConfigure {
     }
 
     public String getDashboardCollectData() {
-        return dataPath + File.separator + "dashboard";
+        //different namesrv uses different file path
+        String suffix = StringUtils.replace(StringUtils.replace(getNamesrvAddr(), ":", "."), ",", "_");
+        return dataPath + File.separator + "dashboard" + suffix;
     }
 
     public void setDataPath(String dataPath) {

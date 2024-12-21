@@ -20,9 +20,12 @@ import com.google.common.collect.Maps;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.rocketmq.dashboard.config.RMQConfigure;
 import org.apache.rocketmq.dashboard.service.AbstractCommonService;
+import org.apache.rocketmq.dashboard.service.DashboardCollectService;
 import org.apache.rocketmq.dashboard.service.OpsService;
 import org.apache.rocketmq.dashboard.service.checker.CheckerType;
 import org.apache.rocketmq.dashboard.service.checker.RocketMqChecker;
@@ -42,6 +45,9 @@ public class OpsServiceImpl extends AbstractCommonService implements OpsService 
     @Resource
     private List<RocketMqChecker> rocketMqCheckerList;
 
+    @Resource
+    private DashboardCollectService dashboardCollectService;
+
     @Override
     public Map<String, Object> homePageInfo() {
         Map<String, Object> homePageInfoMap = Maps.newHashMap();
@@ -54,6 +60,11 @@ public class OpsServiceImpl extends AbstractCommonService implements OpsService 
 
     @Override
     public void updateNameSvrAddrList(String nameSvrAddrList) {
+        if (!StringUtils.equals(nameSvrAddrList, configure.getNamesrvAddr())) {
+            //clear cache after update nameSvrAddr
+            dashboardCollectService.getBrokerMap().invalidateAll();
+            dashboardCollectService.getTopicMap().invalidateAll();
+        }
         configure.setNamesrvAddr(nameSvrAddrList);
         // when update namesrvAddr, clean the mqAdminExt objects pool.
         mqAdminExtPool.clear();
